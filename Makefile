@@ -57,4 +57,3 @@ spReticleLoc.so: GPURenderer.o OpenGLRenderer.o V2Renderer.o spReticleLoc.o
 	@echo successfully compiled $@ into $(BUILDDIR)
 	@echo $(CURDIR)/$(BUILDDIR)/$@
 	@echo ""
-
