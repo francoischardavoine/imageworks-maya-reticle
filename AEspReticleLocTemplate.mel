@@ -321,7 +321,7 @@ global proc AEspReticleLocSetFilmback( string $node, string $setting )
             break;
     }
 
-    if (getAttr($node+"driveCameraAperture") == 0)
+    if (getAttr($node+"driveCameraAperture") == 1)
     {
         if (($newHfa && $newVfa) && (($newHfa != $hfa) ||
             ($newVfa != $vfa)) && (about("-batch") == 0))
@@ -497,7 +497,7 @@ global proc AEspReticleLocSetProjection( string $node, string $setting )
         case "projGate" :
             break;
         case "projAR" :
-            float $projGate[] = `floatFieldGrp -query -value ("AEspReticleLoc"+$attr)`;
+            $projGate = `floatFieldGrp -query -value ("AEspReticleLoc"+$attr)`;
             float $projAR[] = `floatFieldGrp -query -value ("AEspReticleLoc"+$paAttr)`;
             $projGate[0] = precision($projGate[0],3);
             $projGate[1] = precision($projGate[0]/$projAR[0],3);
