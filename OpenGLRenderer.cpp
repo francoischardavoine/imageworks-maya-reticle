@@ -39,6 +39,8 @@
 //
 //
 
+#include <cstddef> // for size_t
+
 #include "font.h"
 
 #include "OpenGLRenderer.h"
