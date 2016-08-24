@@ -5,7 +5,6 @@
 ##################################
 
 ARCH          = $(shell uname -m)
-C++           = g++
 BUILDDIR      = Build/$(ARCH)
 
 NO_TRANS_LINK =
@@ -13,7 +12,7 @@ CFLAGS        = -DLINUX -D_BOOL -DREQUIRE_IOSTREAM -DBits64_ -DLINUX_64 -fPIC
 
 C++FLAGS      = $(CFLAGS) -Wno-deprecated -fno-gnu-keywords
 
-LD            = $(C++) $(NO_TRANS_LINK) $(C++FLAGS) -Wl,-Bsymbolic -shared
+LD            = $(CPP) $(NO_TRANS_LINK) $(C++FLAGS) -Wl,-Bsymbolic -shared
 
 INCLUDES      = -I. -I$(MAYA_LOCATION)/include -I/opt/X11/include
 LIBS          = -L$(MAYA_LOCATION)/lib
@@ -29,7 +28,7 @@ opt: CFLAGS += -O3
 
 .cpp.o:
 	-mkdir -p $(BUILDDIR)
-	$(C++) -c $(INCLUDES) $(C++FLAGS) -o $(BUILDDIR)/$@ $<
+	$(CPP) -c $(INCLUDES) $(C++FLAGS) -o $(BUILDDIR)/$@ $<
 
 plugins: \
     spReticleLoc.so
@@ -57,3 +56,4 @@ spReticleLoc.so: GPURenderer.o OpenGLRenderer.o V2Renderer.o spReticleLoc.o
 	@echo successfully compiled $@ into $(BUILDDIR)
 	@echo $(CURDIR)/$(BUILDDIR)/$@
 	@echo ""
+
