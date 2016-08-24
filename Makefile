@@ -78,7 +78,7 @@ POST_LINK_RENAME = $(PROJECT).so
 # Type of compiled code installed when using
 # 'make install' and 'make install_local'
 INSTALL_TYPE=opt
-INSTALL_LOCAL_TYPE=debug
+INSTALL_LOCAL_TYPE=opt
 
 # IMPORTANT! You need to type in the exact name of this file here!
 # There is a make flaw that does not let me know the name of this file
