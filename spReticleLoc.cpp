@@ -1726,9 +1726,9 @@ bool spReticleLoc::prepForDraw(const MObject & node, const MDagPath & path, cons
 //
 void spReticleLoc::drawBase(int width, int height, GPURenderer* renderer)
 {
-	portWidth = double(width);
-	portHeight = double(height);
-	
+    portWidth = double(width);
+    portHeight = double(height);
+
     // Calculate the port geometry
     calcPortGeom();
 
@@ -1760,13 +1760,13 @@ void spReticleLoc::drawBase(int width, int height, GPURenderer* renderer)
             calcAspectGeom( ars[i] );
         }
     }
-    
+
     // Set the filmback for the renderer
     renderer->setFilmback(&filmback);
 
     // Get everything setup for rendering
     renderer->prepareForDraw(portWidth, portHeight);
-    
+
     // create variable to store what the first geometry object to draw aspect ratios to
     Geom aspectContainerGeom = portGeom;
     Geom filmbackGeom = filmback.filmbackGeom;
@@ -1796,7 +1796,7 @@ void spReticleLoc::drawBase(int width, int height, GPURenderer* renderer)
             renderer->drawMask(aspectContainerGeom, pad.padGeom, pad.padGeom.maskColor, true);
         aspectContainerGeom = pad.padGeom;
     }
-    
+
     // Draw all the aspectRatios
 
     // Draw the masks first
@@ -2072,13 +2072,13 @@ void spReticleLoc::draw(M3dView & view, const MDagPath & path,
     // Prep the data for drawing
     if (!prepForDraw(thisMObject(), path, cameraPath))
         return;
-	
+
     // Get the view ready for drawing
     view.beginGL();
 
     // Perform the draw
     drawBase(view.portWidth(), view.portHeight(), &oglRenderer);
-	
+
     // End of openGL calls
     view.endGL();
 }
@@ -2944,6 +2944,13 @@ void spReticleLocDrawOverride::draw(const MHWRender::MDrawContext& context, cons
     {
         if (drawData->draw)
         {
+            /*
+            if (context.numberOfActiveLights() > 0 )
+            {
+                std::cerr << "In spReticleLocDrawOverride::draw: numberOfActiveLights = " << context.numberOfActiveLights() << " ..." << std::endl;
+            }
+            */
+
             drawData->reticle->drawBase(portWidth, portHeight, drawData->renderer);
         }
     }
