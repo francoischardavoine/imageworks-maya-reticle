@@ -39,11 +39,11 @@
 //
 //
 
-#include <cstddef> // for size_t
+#define GL_GLEXT_PROTOTYPES
 
 #include "font.h"
-
 #include "OpenGLRenderer.h"
+#include "GL/glext.h"
 
 OpenGLRenderer::OpenGLRenderer()
 {
@@ -103,7 +103,7 @@ void OpenGLRenderer::prepareForDraw(float portWidth, float portHeight)
             );
     glMatrixMode( GL_MODELVIEW );
     glLoadIdentity();
-    
+
     // Turn on openGL blending for transparency
     glEnable(GL_BLEND);
     
@@ -117,6 +117,11 @@ void OpenGLRenderer::prepareForDraw(float portWidth, float portHeight)
     // Disable Depth testing
     glDisable( GL_DEPTH_TEST );
     glDepthMask( GL_FALSE );
+
+    // Fix multiple light VP 2.0 text issue
+    // Note: either one works below:
+    glActiveTextureARB( GL_TEXTURE0_ARB );
+    //glActiveTextureARB( GL_TEXTURE0 );
 }
 
 void OpenGLRenderer::postDraw()
@@ -356,7 +361,7 @@ void OpenGLRenderer::drawText(TextData *td, double tx, double ty)
 void OpenGLRenderer::enableTextRendering() {
     // Enable GL textures
     glEnable( GL_TEXTURE_2D );
-    
+
     if (!fontAtlas.id) {
         glGenTextures( 1, &fontAtlas.id );
         glBindTexture( GL_TEXTURE_2D, fontAtlas.id );
@@ -364,13 +369,13 @@ void OpenGLRenderer::enableTextRendering() {
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        
+
         //Generate the texture with mipmaps
         glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
-        
+
         glTexImage2D( GL_TEXTURE_2D, 0, GL_ALPHA, fontAtlas.width, fontAtlas.height, 0, GL_ALPHA, GL_UNSIGNED_BYTE, fontAtlas.data );
     }
-    
+
     glBindTexture( GL_TEXTURE_2D, fontAtlas.id );
 }
 

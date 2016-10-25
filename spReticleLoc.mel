@@ -33,7 +33,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 
-spInclude "<plugins/others/spReticuleLoc.so>";
+spInclude "<plugins/others/spReticleLoc.so>";
 
 global proc spReticleLocCreate()
 {
@@ -47,6 +47,13 @@ global proc spReticleLocCreate()
         if (objExists("temp_master"))
         {
             parent $reticleTransform temp_master;
+        }
+
+        // Prevent strange clipping of light cone, and possible
+        // reflections of reticle text in shadows in Viewport 2.0
+        if (objExists($reticleLoc[0]+".castsShadows"))
+        {
+            setAttr ($reticleLoc[0]+".castsShadows") 0;
         }
     }
     else

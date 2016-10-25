@@ -79,14 +79,14 @@ void V2Renderer::postDraw()
 //
 void V2Renderer::drawMask( Geom g1, Geom g2, MColor color, bool sides, bool top=true )
 {
-	drawManager->setColor(MColor(color.r, color.g, color.b, 1 - color.a));
-    
-	MUintArray index;
-	index.append(0);
-	index.append(1);
-	index.append(3);
-	index.append(2);
-    
+    drawManager->setColor(MColor(color.r, color.g, color.b, 1 - color.a));
+
+    MUintArray index;
+    index.append(0);
+    index.append(1);
+    index.append(3);
+    index.append(2);
+
     if (top)
     {
         if ( (g2.y1 - g1.y1) > EPSILON )
@@ -100,7 +100,6 @@ void V2Renderer::drawMask( Geom g1, Geom g2, MColor color, bool sides, bool top=
             drawManager->mesh2d(MHWRender::MUIDrawManager::kTriStrip,bottomMask,NULL,&index);
         }
 
-    
         if ( (g1.y2 - g2.y2) > EPSILON )
         {
             // Top Mask
@@ -118,9 +117,9 @@ void V2Renderer::drawMask( Geom g1, Geom g2, MColor color, bool sides, bool top=
         g1.y2 = g2.y2;
     }
     
-	if (sides)
-	{
-		// Left side mask
+    if (sides)
+    {
+        // Left side mask
         if ((g2.x1 - g1.x1) > EPSILON)
         {
             MPointArray leftMask;
@@ -130,8 +129,8 @@ void V2Renderer::drawMask( Geom g1, Geom g2, MColor color, bool sides, bool top=
             leftMask.append(MPoint( g1.x1, g1.y2, 0.0));
             drawManager->mesh2d(MHWRender::MUIDrawManager::kTriStrip,leftMask,NULL,&index);
         }
-        
-		// right side mask
+
+        // right side mask
         if ((g1.x2 - g2.x2) > EPSILON)
         {
             MPointArray rightMask;
@@ -141,7 +140,7 @@ void V2Renderer::drawMask( Geom g1, Geom g2, MColor color, bool sides, bool top=
             rightMask.append(MPoint( g1.x2, g1.y2, 0.0));
             drawManager->mesh2d(MHWRender::MUIDrawManager::kTriStrip,rightMask,NULL,&index);
         }
-	}
+    }
 }
 
 // This draws a single line between the specified points.
@@ -149,17 +148,17 @@ void V2Renderer::drawMask( Geom g1, Geom g2, MColor color, bool sides, bool top=
 void V2Renderer::drawLine(double x1, double x2, double y1, double y2,
                             MColor color, bool stipple)
 {
-	//drawManager->beginDrawable();
-    
-	drawManager->setColor(color);
-    
-	if(stipple) {
-		drawManager->setLineStyle(2,0x00FF);
-	}
-    
-	drawManager->line2d(MPoint(x1,y1),MPoint(x2,y2));
-    
-	//drawManager->endDrawable();
+    //drawManager->beginDrawable();
+
+    drawManager->setColor(color);
+
+    if(stipple) {
+            drawManager->setLineStyle(2,0x00FF);
+    }
+
+    drawManager->line2d(MPoint(x1,y1),MPoint(x2,y2));
+
+    //drawManager->endDrawable();
 }
 
 // Given a Geom instance, this will draw a line connecting the points.
@@ -169,24 +168,24 @@ void V2Renderer::drawLine(double x1, double x2, double y1, double y2,
 //
 void V2Renderer::drawLines( Geom g, MColor color, bool sides, bool stipple)
 {
-	//drawManager->beginDrawable();
-    
-	drawManager->setColor(MColor(color.r,color.g,color.b,1-color.a));
-    
-	if(stipple) {
-		drawManager->setLineStyle(2,0x00FF);
-	}
-    
-	if(sides) {
-		drawManager->rect2d(MPoint ((g.x1 + g.x2)/2, (g.y1 + g.y2)/2),
-                           MVector(0.0,1.0),
-                           fabs(g.x1-g.x2)/2,fabs(g.y1-g.y2)/2);
-	} else {
-		drawManager->line2d(MPoint(g.x1,g.y1),MPoint(g.x2,g.y1));
-		drawManager->line2d(MPoint(g.x2,g.y2),MPoint(g.x1,g.y2));
-	}
-    
-	//drawManager->endDrawable();
+    //drawManager->beginDrawable();
+
+    drawManager->setColor(MColor(color.r,color.g,color.b,1-color.a));
+
+    if(stipple) {
+            drawManager->setLineStyle(2,0x00FF);
+    }
+
+    if(sides) {
+            drawManager->rect2d(MPoint ((g.x1 + g.x2)/2, (g.y1 + g.y2)/2),
+                       MVector(0.0,1.0),
+                       fabs(g.x1-g.x2)/2,fabs(g.y1-g.y2)/2);
+    } else {
+            drawManager->line2d(MPoint(g.x1,g.y1),MPoint(g.x2,g.y1));
+            drawManager->line2d(MPoint(g.x2,g.y2),MPoint(g.x1,g.y2));
+    }
+
+    //drawManager->endDrawable();
 }
 
 // This function uses MUIDrawManager to draw text.
@@ -198,7 +197,7 @@ void V2Renderer::drawText(TextData *td, double tx, double ty)
 #if (MAYA_API_VERSION >= 201500)
     int fontSize = td->textSize * screenScaleFactor;
     drawManager->setFontName("Bitstream Charter");
-	drawManager->setFontSize(fontSize);
+    drawManager->setFontSize(fontSize);
 #else
     int fontSize = 14;
 #endif
@@ -220,13 +219,13 @@ void V2Renderer::drawText(TextData *td, double tx, double ty)
     tx += td->textPosX*screenScaleFactor;
     ty += td->textPosY*screenScaleFactor;
     
-	//drawManager->beginDrawable();
-	
-    //drawManager->setColor(td->textColor);
-	drawManager->setColor(MColor(td->textColor.r,td->textColor.g,td->textColor.b,1-td->textColor.a));
-	drawManager->text2d(MPoint(tx,ty),td->textStr,(MHWRender::MUIDrawManager::TextAlignment)td->textAlign);
+    //drawManager->beginDrawable();
     
-	//drawManager->endDrawable();
+    drawManager->setColor(td->textColor);
+    drawManager->setColor(MColor(td->textColor.r,td->textColor.g,td->textColor.b,1-td->textColor.a));
+    //drawManager->text2d(MPoint(tx,ty),td->textStr,(MHWRender::MUIDrawManager::TextAlignment)td->textAlign);
+
+    //drawManager->endDrawable();
 }
 
 #endif
