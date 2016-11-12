@@ -1575,7 +1575,7 @@ bool spReticleLoc::prepForDraw(const MObject & node, const MDagPath & path, cons
         p = MPlug ( thisNode, Tag );
         McheckStatus ( p.getValue ( tag  ), "spReticleLoc::draw get tag");
         
-        MString cmd = "if (exists(\"" SOURCE_MEL_METHOD "\")) "SOURCE_MEL_METHOD"(\""+path.partialPathName()+"\",\""+tag+"\")";
+        MString cmd = "if (exists(\"" + MString(SOURCE_MEL_METHOD) + "\")) " + MString(SOURCE_MEL_METHOD) +"(\"" + path.partialPathName() + "\",\"" + tag + "\")";
         MGlobal::executeCommand(cmd);
         loadDefault = false;
     }
@@ -2838,8 +2838,8 @@ MHWRender::DrawAPI spReticleLocDrawOverride::supportedDrawAPIs() const
 #elif (MAYA_API_VERSION>=201300)
 MHWRender::DrawAPI spReticleLocDrawOverride::supportedDrawAPIs() const
 {
-    // this plugin supports OpenGL
-    return (MHWRender::kOpenGL);
+    // this plugin supports OpenGL (Legacy) and OpenGL - Core Profile (Compatibility)
+    return (MHWRender::kOpenGL | MHWRender::kOpenGLCoreProfile);
 }
 #endif
 
