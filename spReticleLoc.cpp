@@ -212,6 +212,16 @@ MObject spReticleLoc::Tag;
 spReticleLoc::spReticleLoc() {}
 spReticleLoc::~spReticleLoc() {}
 
+// Make a huge bounding box
+//
+/*
+MBoundingBox spReticleLoc::boundingBox() const
+{
+    return MBoundingBox(MPoint(-1000000,-1000000,-1000000),
+                        MPoint(1000000,1000000,1000000));
+}
+*/
+
 // This method will retrieve the individual r,g,b and alpha values from
 // various plugs and store them in an MColor object.
 //
@@ -2829,23 +2839,21 @@ spReticleLocDrawOverride::~spReticleLocDrawOverride()
 {
 }
 
-#if (MAYA_API_VERSION>=201400 && USE_MUIDRAWMANAGER)
+#if (MAYA_API_VERSION>=201600 && USE_MUIDRAWMANAGER)
 MHWRender::DrawAPI spReticleLocDrawOverride::supportedDrawAPIs() const
 {
-    // this plugin supports both GL and DX
-    return (MHWRender::kOpenGL | MHWRender::kDirectX11);
+    return (MHWRender::kOpenGL | MHWRender::kOpenGLCoreProfile | MHWRender::kDirectX11);
 }
 #elif (MAYA_API_VERSION>=201300)
 MHWRender::DrawAPI spReticleLocDrawOverride::supportedDrawAPIs() const
 {
-    // this plugin supports OpenGL (Legacy) and OpenGL - Core Profile (Compatibility)
-    return (MHWRender::kOpenGL | MHWRender::kOpenGLCoreProfile);
+    return (MHWRender::kOpenGL);
 }
 #endif
 
 #if (MAYA_API_VERSION>=201300)
-bool spReticleLocDrawOverride::isBounded(const MDagPath& /*objPath*/,
-                                      const MDagPath& /*cameraPath*/) const
+bool spReticleLocDrawOverride::isBounded(const MDagPath& objPath,
+                                      const MDagPath& cameraPath) const
 {
     return false;
 }

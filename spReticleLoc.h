@@ -64,6 +64,8 @@ public:
     virtual bool            drawLast() const      {return true;}
     virtual bool            isBounded() const     {return false;}
 
+    //virtual MBoundingBox    boundingBox() const;
+
     // Get node ready for drawing
     bool                    prepForDraw(const MObject & thisNode, const MDagPath & path, const MDagPath & cameraPath);
     
@@ -260,7 +262,7 @@ public:
 
 #if (MAYA_API_VERSION>=201300)
     virtual MHWRender::DrawAPI supportedDrawAPIs() const;
-    
+
     virtual bool isBounded(
                            const MDagPath& objPath,
                            const MDagPath& cameraPath) const;
