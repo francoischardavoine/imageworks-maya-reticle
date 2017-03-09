@@ -79,6 +79,8 @@ void V2Renderer::postDraw()
 //
 void V2Renderer::drawMask( Geom g1, Geom g2, MColor color, bool sides, bool top=true )
 {
+    //drawManager->beginDrawable();
+
     drawManager->setColor(MColor(color.r, color.g, color.b, 1 - color.a));
 
     MUintArray index;
@@ -141,6 +143,8 @@ void V2Renderer::drawMask( Geom g1, Geom g2, MColor color, bool sides, bool top=
             drawManager->mesh2d(MHWRender::MUIDrawManager::kTriStrip,rightMask,NULL,&index);
         }
     }
+
+    //drawManager->endDrawable();
 }
 
 // This draws a single line between the specified points.
@@ -152,8 +156,14 @@ void V2Renderer::drawLine(double x1, double x2, double y1, double y2,
 
     drawManager->setColor(color);
 
-    if(stipple) {
-            drawManager->setLineStyle(2,0x00FF);
+    if(stipple)
+    {
+        drawManager->setLineStyle(2,0x0F0F);
+        //drawManager->setLineStyle(MHWRender::MUIDrawManager::LineStyle::kDashed);
+    }
+    else
+    {
+        drawManager->setLineStyle(MHWRender::MUIDrawManager::LineStyle::kSolid);
     }
 
     drawManager->line2d(MPoint(x1,y1),MPoint(x2,y2));
@@ -172,17 +182,26 @@ void V2Renderer::drawLines( Geom g, MColor color, bool sides, bool stipple)
 
     drawManager->setColor(MColor(color.r,color.g,color.b,1-color.a));
 
-    if(stipple) {
-            drawManager->setLineStyle(2,0x00FF);
+    if(stipple)
+    {
+        drawManager->setLineStyle(2,0x0F0F);
+        //drawManager->setLineStyle(MHWRender::MUIDrawManager::LineStyle::kDashed);
+    }
+    else
+    {
+        drawManager->setLineStyle(MHWRender::MUIDrawManager::LineStyle::kSolid);
     }
 
-    if(sides) {
-            drawManager->rect2d(MPoint ((g.x1 + g.x2)/2, (g.y1 + g.y2)/2),
-                       MVector(0.0,1.0),
-                       fabs(g.x1-g.x2)/2,fabs(g.y1-g.y2)/2);
-    } else {
-            drawManager->line2d(MPoint(g.x1,g.y1),MPoint(g.x2,g.y1));
-            drawManager->line2d(MPoint(g.x2,g.y2),MPoint(g.x1,g.y2));
+    if(sides)
+    {
+        drawManager->rect2d(MPoint ((g.x1 + g.x2)/2, (g.y1 + g.y2)/2),
+                   MVector(0.0,1.0),
+                   fabs(g.x1-g.x2)/2,fabs(g.y1-g.y2)/2);
+    }
+    else
+    {
+        drawManager->line2d(MPoint(g.x1,g.y1),MPoint(g.x2,g.y1));
+        drawManager->line2d(MPoint(g.x2,g.y2),MPoint(g.x1,g.y2));
     }
 
     //drawManager->endDrawable();
@@ -192,12 +211,33 @@ void V2Renderer::drawLines( Geom g, MColor color, bool sides, bool stipple)
 //
 void V2Renderer::drawText(TextData *td, double tx, double ty)
 {
+    //drawManager->beginDrawable();
+
     double screenScaleFactor = (td->textScale) ? filmback->filmbackGeom.x/1280.0f : 1.0f;
 
-#if (MAYA_API_VERSION >= 201500)
-    int fontSize = td->textSize * screenScaleFactor;
-    drawManager->setFontName("Bitstream Charter");
+#if (MAYA_API_VERSION > 201500)
+    int fontSize = td->textSize * screenScaleFactor * 1.5;
     drawManager->setFontSize(fontSize);
+    drawManager->setFontName("helvetica");
+    if (td->textBold)
+    {
+        drawManager->setFontWeight(MHWRender::MUIDrawManager::TextWeight::kWeightBold);
+    }
+    else
+    {
+        drawManager->setFontWeight(MHWRender::MUIDrawManager::TextWeight::kWeightLight);
+    }
+#elif (MAYA_API_VERSION == 201500)
+    int fontSize = td->textSize * screenScaleFactor * 1.5;
+    drawManager->setFontSize(fontSize);
+    if (td->textBold)
+    {
+        drawManager->setFontName("Bitstream Vera Sans");
+    }
+    else
+    {
+        drawManager->setFontName("PT Sans");
+    }
 #else
     int fontSize = 14;
 #endif
@@ -205,25 +245,28 @@ void V2Renderer::drawText(TextData *td, double tx, double ty)
     // Adjust ty for text alignment
     switch (td->textVAlign) {
         case 0:
-            ty -= (fontSize * 0.22f);
+            ty -= (fontSize * 0.35f);
             break;
         case 1:
-            ty -= fontSize / 2.0f;
+            ty -= fontSize / 1.5f;
             break;
         case 2:
             ty -= fontSize;
             break;
     }
-    
+
     // Adjust text position to account for screen scaling
     tx += td->textPosX*screenScaleFactor;
     ty += td->textPosY*screenScaleFactor;
-    
-    //drawManager->beginDrawable();
-    
+
+    // Note: the tz is slightly negative to make it draw above possible solid masks.
+    // If set to 0, text might disappear!!!
+    //
+    double tz = -0.0001;
+
     drawManager->setColor(td->textColor);
     drawManager->setColor(MColor(td->textColor.r,td->textColor.g,td->textColor.b,1-td->textColor.a));
-    //drawManager->text2d(MPoint(tx,ty),td->textStr,(MHWRender::MUIDrawManager::TextAlignment)td->textAlign);
+    drawManager->text2d(MPoint(tx,ty,tz),td->textStr,(MHWRender::MUIDrawManager::TextAlignment)td->textAlign);
 
     //drawManager->endDrawable();
 }

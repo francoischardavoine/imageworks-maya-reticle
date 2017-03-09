@@ -73,6 +73,6 @@
 // Currently, it has proper draw-order integration with image planes and support for DX11.
 // Cons are that it is slower, fonts are aliased, and line rendering is sometimes occluded by masks.
 // This only impacts Viewport 2.0.  Viewport 1.0 will use the OpenGLRenderer regardless.
-#define USE_MUIDRAWMANAGER      false 
+#define USE_MUIDRAWMANAGER      true 
 
 #endif
