@@ -752,8 +752,8 @@ MStatus spReticleLoc::getTextData()
     p = MPlug( thisNode, Text );
     int numPlugs = p.numElements();
 
-    // Clamp the number of text items at 20 for now.
-    numPlugs = (numPlugs > 20) ? 20: numPlugs;
+    // Clamp the number of text items at 100 for now.
+    numPlugs = (numPlugs > 100) ? 100: numPlugs;
 
     for (int i = 0; i < numPlugs && i < numPlugs; i++ )
     {
