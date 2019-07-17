@@ -1373,6 +1373,22 @@ bool spReticleLoc::calcDynamicText(TextData *td, const int i)
             if (td->textStr == "")
                 td->textStr = "safe title";
             break;
+        case 21:						//Mel Command
+            if (td->textStr != "")
+            {
+                MString cmd = td->textStr;
+                MString result = MGlobal::executeCommandStringResult(td->textStr);
+                td->textStr = result;
+            }
+            break;
+        case 22:						//Python Command
+            if (td->textStr != "")
+            {
+                MString cmd = td->textStr;
+                MString result = MGlobal::executePythonCommandStringResult(td->textStr);
+                td->textStr = result;
+            }
+            break;
         default:
             MGlobal::displayError( name() + " invalid text type for text item " + i);
             return false;
@@ -2441,6 +2457,8 @@ MStatus spReticleLoc::initialize()
     eAttr.addField("Pan/Scan Offset",18);
     eAttr.addField("safe action",19);
     eAttr.addField("safe title",20);
+    eAttr.addField("Mel Command",21);
+    eAttr.addField("Python Command",22);
     eAttr.setInternal(true);
 
     TextStr = tAttr.create( "textStr", "tstr", MFnStringData::kString );
