@@ -41,9 +41,16 @@
 
 #define GL_GLEXT_PROTOTYPES
 
+#include <vector>
+#include <algorithm>
+
 #include "font.h"
 #include "OpenGLRenderer.h"
-#include "GL/glext.h"
+#ifndef _WIN32
+#    include "GL/glext.h"
+#else
+#    include "glext.h"
+#endif
 
 OpenGLRenderer::OpenGLRenderer()
 {
@@ -118,10 +125,13 @@ void OpenGLRenderer::prepareForDraw(float portWidth, float portHeight)
     glDisable( GL_DEPTH_TEST );
     glDepthMask( GL_FALSE );
 
+#ifndef _WIN32
     // Fix multiple light VP 2.0 text issue
     // Note: either one works below:
+    // Note: currently we do not have glext.h (and libftgl.so) on Windows.
     glActiveTextureARB( GL_TEXTURE0_ARB );
     //glActiveTextureARB( GL_TEXTURE0 );
+#endif
 }
 
 void OpenGLRenderer::postDraw()
@@ -277,8 +287,8 @@ void OpenGLRenderer::drawText(TextData *td, double tx, double ty)
     float textHeight = 0.0f;
     int numChars = wcslen(textPtr);
     
-    TextureGlyph *glyphs[numChars];
-    double kerning[numChars];
+    std::vector<TextureGlyph> glyphs(numChars);
+    std::vector<double> kerning(numChars, 0.0);
     
     for (int i = 0; i < numChars; i++) {
         GlyphMap::iterator it = font->glyphMap.find(textPtr[i]);
@@ -287,16 +297,16 @@ void OpenGLRenderer::drawText(TextData *td, double tx, double ty)
             return;
         }
         
-        TextureGlyph *glyph = glyphs[i] = it->second;
+        glyphs[i] = *(it->second);
         
-        textWidth += glyph->advance_x;
-        textHeight = std::max(textHeight,float(glyph->height));
-        
-        if (i > 0 && glyph->kerning_count) {
-            double kernAmount = 0;
-            for(unsigned int kernIndex =0; kernIndex < glyph->kerning_count; kernIndex++) {
-                if (glyph->kerning[kernIndex].charcode == textPtr[i-1] ) {
-                    kernAmount = glyph->kerning[kernIndex].kerning;
+        textWidth += glyphs[i].advance_x;
+        textHeight = (std::max)(textHeight,float(glyphs[i].height));
+
+        if (i > 0 && glyphs[i].kerning_count) {
+            double kernAmount = 0.0;
+            for(unsigned int kernIndex = 0; kernIndex < glyphs[i].kerning_count; kernIndex++) {
+                if (glyphs[i].kerning[kernIndex].charcode == textPtr[i-1] ) {
+                    kernAmount = glyphs[i].kerning[kernIndex].kerning;
                     break;
                 }
             }
@@ -304,7 +314,7 @@ void OpenGLRenderer::drawText(TextData *td, double tx, double ty)
             textWidth += kerning[i];
         }
         else
-            kerning[i] = 0.0f;
+            kerning[i] = 0.0;
     }
     
     // Scale textWidth based upon the fontScaleFactor;
@@ -338,22 +348,20 @@ void OpenGLRenderer::drawText(TextData *td, double tx, double ty)
     // Actually draw the glyphs
     glColor4f( td->textColor.r, td->textColor.g, td->textColor.b, 1-td->textColor.a );
     for( int i=0; i<numChars; i++) {
-        TextureGlyph *glyph = glyphs[i];
-        
-        double x = double(tx + ((glyph->offset_x + kerning[i]) * fontScaleFactor));
-        double y = double(ty + (glyph->offset_y*fontScaleFactor));
-        double w  = glyph->width * fontScaleFactor;
-        double h  = glyph->height * fontScaleFactor;
+        double x = double(tx + ((glyphs[i].offset_x + kerning[i]) * fontScaleFactor));
+        double y = double(ty + (glyphs[i].offset_y*fontScaleFactor));
+        double w  = glyphs[i].width * fontScaleFactor;
+        double h  = glyphs[i].height * fontScaleFactor;
         glBegin( GL_QUADS );
         {
-            glTexCoord2f( glyph->u0, glyph->v0 ); glVertex2d( x,   y   );
-            glTexCoord2f( glyph->u0, glyph->v1 ); glVertex2d( x,   y-h );
-            glTexCoord2f( glyph->u1, glyph->v1 ); glVertex2d( x+w, y-h );
-            glTexCoord2f( glyph->u1, glyph->v0 ); glVertex2d( x+w, y   );
+            glTexCoord2f( glyphs[i].u0, glyphs[i].v0 ); glVertex2d( x,   y   );
+            glTexCoord2f( glyphs[i].u0, glyphs[i].v1 ); glVertex2d( x,   y-h );
+            glTexCoord2f( glyphs[i].u1, glyphs[i].v1 ); glVertex2d( x+w, y-h );
+            glTexCoord2f( glyphs[i].u1, glyphs[i].v0 ); glVertex2d( x+w, y   );
         }
         glEnd();
-        tx += (glyph->advance_x + kerning[i]) * fontScaleFactor;
-        ty += glyph->advance_y * fontScaleFactor;
+        tx += (glyphs[i].advance_x + kerning[i]) * fontScaleFactor;
+        ty += glyphs[i].advance_y * fontScaleFactor;
     }
 }
 

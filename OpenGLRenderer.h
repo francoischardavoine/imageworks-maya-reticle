@@ -52,9 +52,12 @@
 #include "GPURenderer.h"
 
 #if defined(OSMac_MachO_)
-#	include <OpenGL/gl.h>
+#    include <OpenGL/gl.h>
 #else
-#	include <GL/gl.h>
+#    if defined(_WIN32)
+#       include <windows.h>
+#    endif
+#    include <GL/gl.h>
 #endif
 
 // General OpenGL Renderer
