@@ -1701,8 +1701,8 @@ bool spReticleLoc::prepForDraw(const MObject & node, const MDagPath & path, cons
         //maximumDist = std::max(fabs(wm[3][0]),std::max(fabs(wm[3][1]),fabs(wm[3][2])));
 
         // largest value (if negative, returns negative number)
-        double maxDist = std::max(wm[3][0],std::max(wm[3][1],wm[3][2]));
-        double minDist = std::min(wm[3][0],std::min(wm[3][1],wm[3][2]));
+        double maxDist = (std::max)(wm[3][0],(std::max)(wm[3][1],wm[3][2]));
+        double minDist = (std::min)(wm[3][0],(std::min)(wm[3][1],wm[3][2]));
         maximumDist = (fabs(maxDist) > fabs(minDist)) ? maxDist : minDist;
     }
 
