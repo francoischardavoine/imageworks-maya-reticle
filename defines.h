@@ -48,7 +48,7 @@
 #define EPSILON                 0.0000001
 
 // Define whether to source a MEL script upon instantiation, and if so, which script in the script path
-#define SOURCE_MEL_SCRIPT       true
+#define SOURCE_MEL_SCRIPT       false
 #define SOURCE_MEL_SCRIPT_PATH  "spReticleLoc.mel"
 #define SOURCE_MEL_METHOD       "spReticleLocSetDefault"
 
