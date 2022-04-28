@@ -1,0 +1,27 @@
+pkg: maya-spreticleloc/0.0.0
+
+build:
+  options:
+    - var: arch
+    - var: os
+    - var: centos
+    - pkg: cmake
+    - pkg: maya
+    - pkg: gcc
+
+  variants:
+    - {maya: 2020.4, gcc: 6.3}
+    - {maya: 2022.0, gcc: 9.3}
+
+  script:
+    #- env |sort
+    - cmake -B build . -G Ninja -DCMAKE_PREFIX_PATH=/spfs -DCMAKE_INSTALL_PREFIX=/spfs
+      -DCMAKE_MODULE_PATH=$PWD -O3 -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
+    - cmake --build build --target install
+
+install:
+  requirements:
+    - pkg: gcc
+      fromBuildEnv: x.x
+    - pkg: maya
+      fromBuildEnv: x.x
