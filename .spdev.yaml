@@ -1,0 +1,11 @@
+version: 1.0.0
+release_notes: |
+  * spk conversion
+
+toolchain: []
+
+components:
+  # libs:
+  - kind: SPKPackage
+    name: maya-spreticleloc
+    spec_file: spreticleloc.spk.yaml
