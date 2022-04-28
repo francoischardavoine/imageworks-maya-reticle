@@ -1,0 +1,3 @@
+include:
+  - project: spi/dev/dev-ops/spdev
+    file: pipelines/default.yaml
