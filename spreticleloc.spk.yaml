@@ -1,4 +1,4 @@
-pkg: maya-spreticleloc/1.0.0
+pkg: maya-spreticleloc/1.0.1
 
 build:
   options:
@@ -12,6 +12,7 @@ build:
   variants:
     - {maya: 2020.4, gcc: 6.3}
     - {maya: 2022.0, gcc: 9.3}
+    - {maya: 2023.0, gcc: 9.3}
 
   script:
     #- env |sort

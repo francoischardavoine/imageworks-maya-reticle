@@ -17,6 +17,9 @@ set(CMAKE_BUILD_TYPE Debug)
 # Needed by some Maya include files:
 add_definitions(-DLINUX)
 
+add_definitions(-DNDEBUG)
+add_definitions(-O3)
+
 file(GLOB SPRETICLELOC_SOURCES *.cpp)
 
 add_library(
