@@ -45,5 +45,7 @@ install(FILES
     DESTINATION scripts/maya/spReticleLoc
 )
 
+set_target_properties(${PLUGIN_NAME} PROPERTIES PREFIX "")
+
 install(TARGETS ${PLUGIN_NAME} DESTINATION plugins/maya)
 
