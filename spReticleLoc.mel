@@ -33,7 +33,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 
-spInclude "<plugins/others/spReticleLoc.so>";
+loadPlugin "spReticleLoc.so";
 
 global proc spReticleLocCreate()
 {
