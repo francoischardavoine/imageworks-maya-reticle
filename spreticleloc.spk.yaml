@@ -1,4 +1,4 @@
-pkg: maya-spreticleloc/1.1.2
+pkg: maya-spreticleloc/1.1.3
 
 build:
   options:
@@ -10,8 +10,6 @@ build:
     - pkg: gcc
 
   variants:
-    - {maya: 2020.4, gcc: 6.3}
-    - {maya: 2022.0, gcc: 9.3}
     - {maya: 2023.0, gcc: 9.3}
 
   script:
@@ -23,6 +21,6 @@ build:
 install:
   requirements:
     - pkg: gcc
-      fromBuildEnv: x.x
+      fromBuildEnv: Binary
     - pkg: maya
-      fromBuildEnv: x.x
+      fromBuildEnv: Binary
