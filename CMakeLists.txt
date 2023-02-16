@@ -38,10 +38,16 @@ target_link_libraries(
 
 target_include_directories(${PLUGIN_NAME} PRIVATE ${LIBS_INCLUDE})
 
+file(MAKE_DIRECTORY scripts/maya/others)
+install(FILES
+    AEspReticleLocTemplate.mel
+    DESTINATION scripts/maya/others
+)
+
+file(MAKE_DIRECTORY scripts/maya/spReticleLoc)
 install(FILES
     spReticleLoc.mel
     spReticleLocWindows.mel
-    AEspReticleLocTemplate.mel
     DESTINATION scripts/maya/spReticleLoc
 )
 
