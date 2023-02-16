@@ -14,7 +14,6 @@ build:
     - {maya-vanilla: =2023.0, maya2023-platform: ~2022.7.0.0}
     - {maya-vanilla: =2023.0, maya2023-platform: ~2023.1.1.0}
 
-
   script:
     #- env |sort
     - cmake -B build . -G Ninja -DCMAKE_PREFIX_PATH=/spfs -DCMAKE_INSTALL_PREFIX=/spfs
@@ -24,7 +23,7 @@ build:
 install:
   requirements:
     - pkg: gcc
-      fromBuildEnv: x.x
+      fromBuildEnv: Binary
     - pkg: maya
     - pkg: maya-vanilla
       fromBuildEnv: x

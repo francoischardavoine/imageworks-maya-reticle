@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 version: 1.2.0
 release_notes: |
   * Fixed AEspReticleLocTemplate.mel install dir; updated maya-platform.
