@@ -1,4 +1,4 @@
-pkg: maya-spreticleloc/1.1.0
+pkg: maya-spreticleloc/1.2.0
 
 build:
   options:
@@ -6,13 +6,14 @@ build:
     - var: os
     - var: centos
     - pkg: cmake
-    - pkg: maya
     - pkg: gcc
+    - pkg: maya2023-platform/1.0
+    - pkg: maya-vanilla
 
   variants:
-    - {maya: 2020.4, gcc: 6.3}
-    - {maya: 2022.0, gcc: 9.3}
-    - {maya: 2023.0, gcc: 9.3}
+    - {maya-vanilla: =2023.0, maya2023-platform: ~2022.7.0.0}
+    - {maya-vanilla: =2023.0, maya2023-platform: ~2023.1.1.0}
+
 
   script:
     #- env |sort
@@ -25,4 +26,5 @@ install:
     - pkg: gcc
       fromBuildEnv: x.x
     - pkg: maya
-      fromBuildEnv: x.x
+    - pkg: maya-vanilla
+      fromBuildEnv: x
