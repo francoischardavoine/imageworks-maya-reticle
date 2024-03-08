@@ -2974,13 +2974,6 @@ void spReticleLocDrawOverride::draw(const MHWRender::MDrawContext& context, cons
     {
         if (drawData->draw)
         {
-            /*
-            if (context.numberOfActiveLights() > 0 )
-            {
-                std::cerr << "In spReticleLocDrawOverride::draw: numberOfActiveLights = " << context.numberOfActiveLights() << " ..." << std::endl;
-            }
-            */
-
             drawData->reticle->drawBase(portWidth, portHeight, drawData->renderer);
         }
     }
