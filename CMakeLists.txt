@@ -11,14 +11,8 @@ set(PLUGIN_NAME "spReticleLoc")
 #    add_definitions(-DPACKAGE_VERSION=$ENV{SPK_PKG_VERSION})
 #endif()
 
-# enable for debugging mode
-set(CMAKE_BUILD_TYPE Debug)
-
 # Needed by some Maya include files:
-add_definitions(-DLINUX)
-
-add_definitions(-DNDEBUG)
-add_definitions(-O3)
+#add_definitions(-DLINUX)
 
 file(GLOB SPRETICLELOC_SOURCES *.cpp)
 

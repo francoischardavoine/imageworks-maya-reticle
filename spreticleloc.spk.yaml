@@ -1,4 +1,4 @@
-pkg: maya-spreticleloc/1.2.0
+pkg: maya-spreticleloc/1.2.1
 
 build:
   options:
@@ -11,13 +11,13 @@ build:
     - pkg: maya-vanilla
 
   variants:
-    - {maya-vanilla: =2023.0, maya2023-platform: ~2022.7.0.0}
     - {maya-vanilla: =2023.0, maya2023-platform: ~2023.1.1.0}
+    - {maya-vanilla: =2023.0, maya2023-platform: ~2023.10.0.0}
 
   script:
     #- env |sort
     - cmake -B build . -G Ninja -DCMAKE_PREFIX_PATH=/spfs -DCMAKE_INSTALL_PREFIX=/spfs
-      -DCMAKE_MODULE_PATH=$PWD -O3 -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON
+      -DCMAKE_MODULE_PATH=$PWD -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCMAKE_BUILD_TYPE=Release
     - cmake --build build --target install
 
 install:

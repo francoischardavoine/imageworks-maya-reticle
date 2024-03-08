@@ -16,7 +16,7 @@
 PROJECT_TYPE = maya
 
 ifndef MAYA_VERSION
-    MAYA_VERSION = 2013
+    MAYA_VERSION = 2020
 endif
 
 # This will be the root of the plugin name as well as
