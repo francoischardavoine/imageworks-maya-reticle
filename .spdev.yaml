@@ -1,6 +1,6 @@
-version: 1.2.0
+version: 1.2.1
 release_notes: |
-  * Fixed AEspReticleLocTemplate.mel install dir; updated maya-platform.
+  * Cleaned up code; updated spk.yaml file with latest Maya variant and Release compiler flag.
 
 toolchain: []
 
