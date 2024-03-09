@@ -1,4 +1,4 @@
-pkg: maya-spreticleloc/1.2.1
+pkg: maya-spreticleloc/2.1.0
 
 build:
   options:

@@ -30,7 +30,10 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ///////////////////////////////////////////////////////////////////////////////
 
-loadPlugin "spReticleLoc.so";
+if(! `pluginInfo -q -loaded "spReticleLoc.so"`)
+{
+    loadPlugin "spReticleLoc.so";
+}
 spInclude "<scripts/tools/spSettings/spSettings.mel>";
 
 global proc spReticleLocCreate()
@@ -38,14 +41,14 @@ global proc spReticleLocCreate()
     //Deleting deprecated spReticuleLoc nodes from scene
     /*
     string $reticuleLoc[] = `ls -type spReticuleLoc`;
-    
+
     if(size($reticuleLoc))
     {   
         print ("Deleting deprecated spReticuleLoc nodes from scene.");
         delete $reticuleLoc;
     }
     */
-    
+
     string $reticleLoc[] = `ls -type spReticleLoc`;
 
     if (size($reticleLoc) == 0)
@@ -80,19 +83,19 @@ proc addText(string $node, string $setting, int $index)
     // Add the specified text setting to the spReticle node
     int $text_textType = spSettingGetValueInt($setting + ".TextType", "");
     setAttr ($node+".text[" + $index + "].textType") $text_textType;
-                
+
     int $text_textAlign = spSettingGetValueInt($setting + ".TextAlign", "");
     setAttr ($node+".text[" + $index + "].textAlign") $text_textAlign;    
-                
+
     int $text_textPosRel = spSettingGetValueInt($setting + ".TextPosRel", "");
     setAttr ($node+".text[" + $index + "].textPosRel") $text_textPosRel;
-    
+
     int $text_textLevel = spSettingGetValueInt($setting + ".TextLevel", "");
     setAttr ($node+".text[" + $index + "].textLevel") $text_textLevel;
-    
+
     float $text_textPosX = spSettingGetValueFloat($setting + ".TextPosX", "");
     setAttr ($node+".text[" + $index + "].textPosX") $text_textPosX;
-    
+
     float $text_textPosY = spSettingGetValueFloat($setting + ".TextPosY", "");
     setAttr ($node+".text[" + $index + "].textPosY") $text_textPosY;
 
@@ -126,7 +129,7 @@ global proc spReticleLocSetDefault(string $node, string $tag)
         float $horizFilmAperture = spSettingGetValueFloat("showSettings.Tools.spReticle.HorizFilmAperture", "");
         float $vertFilmAperture  = spSettingGetValueFloat("showSettings.Tools.spReticle.VertFilmAperture", ""); 
         setAttr ($node+".filmbackAperture") $horizFilmAperture $vertFilmAperture;
-       
+
         //Projection Gate Settings
         int $displayProjGate = spSettingGetValueInt("showSettings.Tools.spReticle.DisplayProjGate", "");
         setAttr ($node+".displayProjGate") $displayProjGate;
@@ -142,31 +145,29 @@ global proc spReticleLocSetDefault(string $node, string $tag)
         setAttr ($node+".projGateLineColor") -type double3 $projGateLineColor[0] $projGateLineColor[1] $projGateLineColor[2];
         float $projGateLineTrans = spSettingGetValueFloat("showSettings.Tools.spReticle.ProjGateLineTrans", "");
         setAttr ($node+".projGateLineTrans") $projGateLineTrans;  
-        
+
         //Aspect Ratio Settings
         //Set Aspect ratio [0] 
         float $aspectRatio = spSettingGetValueFloat("showSettings.Tools.spReticle.AspectRatio", "");
         setAttr ($node+".aspectRatios[0].aspectRatio") $aspectRatio;
-        
+
         int $aspectDisplayMode = spSettingGetValueInt("showSettings.Tools.spReticle.AspectDisplayMode", "");
         setAttr ($node+".aspectRatios[0].displayMode") $aspectDisplayMode;
-     
+
         float $aspectMaskColor[] = spSettingGetValueFloat3("showSettings.Tools.spReticle.AspectMaskColor", "");
         setAttr ($node+".aspectRatios[0].aspectMaskColor") -type double3 $aspectMaskColor[0] $aspectMaskColor[1] $aspectMaskColor[2];
-        
+
         float $aspectMaskTrans = spSettingGetValueFloat("showSettings.Tools.spReticle.AspectMaskTrans", "");
         setAttr ($node+".aspectRatios[0].aspectMaskTrans") $aspectMaskTrans;
-        
+
         float $aspectLineColor[] = spSettingGetValueFloat3("showSettings.Tools.spReticle.AspectLineColor", "");
         setAttr ($node+".aspectRatios[0].aspectLineColor") -type double3 $aspectLineColor[0] $aspectLineColor[1] $aspectLineColor[2];
-        
+
         float $aspectLineTrans = spSettingGetValueFloat("showSettings.Tools.spReticle.AspectLineTrans", "");
         setAttr ($node+".aspectRatios[0].aspectLineTrans") $aspectLineTrans;
-        
+
         int $aspectDisplaySafeAction = spSettingGetValueInt("showSettings.Tools.spReticle.AspectDisplaySafeAction", "");
         setAttr ($node+".aspectRatios[0].aspectDisplaySafeAction") $aspectDisplaySafeAction;
-
-        
 
         //Aspect Ratio Settings
         //Set Aspect ratio [1] 
@@ -174,80 +175,77 @@ global proc spReticleLocSetDefault(string $node, string $tag)
 
         if ( $aspectDisplayMode2 != 0 )
         {
-
             float $aspectRatio2 = spSettingGetValueFloat("showSettings.Tools.spReticle.AspectRatio2", "");
             setAttr ($node+".aspectRatios[1].aspectRatio") $aspectRatio2;
 
             setAttr ($node+".aspectRatios[1].displayMode") $aspectDisplayMode2;
-         
+
             float $aspectMaskColor2[] = spSettingGetValueFloat3("showSettings.Tools.spReticle.AspectMaskColor2", "");
             setAttr ($node+".aspectRatios[1].aspectMaskColor") -type double3 $aspectMaskColor2[0] $aspectMaskColor2[1] $aspectMaskColor2[2];
-            
+
             float $aspectMaskTrans2 = spSettingGetValueFloat("showSettings.Tools.spReticle.AspectMaskTrans2", "");
             setAttr ($node+".aspectRatios[1].aspectMaskTrans") $aspectMaskTrans2;
-            
+
             float $aspectLineColor2[] = spSettingGetValueFloat3("showSettings.Tools.spReticle.AspectLineColor2", "");
             setAttr ($node+".aspectRatios[1].aspectLineColor") -type double3 $aspectLineColor2[0] $aspectLineColor2[1] $aspectLineColor2[2];
-            
+
             float $aspectLineTrans2 = spSettingGetValueFloat("showSettings.Tools.spReticle.AspectLineTrans2", "");
             setAttr ($node+".aspectRatios[1].aspectLineTrans") $aspectLineTrans2;
-            
+
             int $aspectDisplaySafeAction2 = spSettingGetValueInt("showSettings.Tools.spReticle.AspectDisplaySafeAction2", "");
             setAttr ($node+".aspectRatios[1].aspectDisplaySafeAction") $aspectDisplaySafeAction2;
         }
 
-
-
         //Pan and Scan Settings
         int $panScanDisplayMode = spSettingGetValueInt("showSettings.Tools.spReticle.PanScanDisplayMode", "");
         setAttr ($node+".panScanDisplayMode") $panScanDisplayMode;
-        
+
         float $panScanAspectRatio = spSettingGetValueFloat("showSettings.Tools.spReticle.PanScanAspectRatio", "");
         setAttr ($node+".panScanAspectRatio") $panScanAspectRatio;   
-        
+
         float $panScanRatio = spSettingGetValueFloat("showSettings.Tools.spReticle.PanScanRatio", "");
         setAttr ($node+".panScanRatio") $panScanRatio;
-               
+
         float $panScanOffset = spSettingGetValueFloat("showSettings.Tools.spReticle.PanScanOffset", "");
         setAttr ($node+".panScanOffset") $panScanOffset;
-        
+
         float $panScanMaskColor[] = spSettingGetValueFloat3("showSettings.Tools.spReticle.PanScanMaskColor", "");
         setAttr ($node+".panScanMaskColor") -type double3 $panScanMaskColor[0] $panScanMaskColor[1] $panScanMaskColor[2];
-        
+
         float $panScanMaskTrans = spSettingGetValueFloat("showSettings.Tools.spReticle.PanScanMaskTrans", "");
         setAttr ($node+".panScanMaskTrans") $panScanMaskTrans;
-        
+
         float $panScanLineColor[] = spSettingGetValueFloat3("showSettings.Tools.spReticle.PanScanLineColor", "");
         setAttr ($node+".panScanLineColor") -type double3 $panScanLineColor[0] $panScanLineColor[1] $panScanLineColor[2];
-     
+
         float $panScanLineTrans = spSettingGetValueFloat("showSettings.Tools.spReticle.PanScanLineTrans", "");
         setAttr ($node+".panScanLineTrans") $panScanLineTrans;
 
         //Pad Settings
         int $usePadMask = spSettingGetValueBoolean("showSettings.Tools.spReticle.UsePadMask", "");
         setAttr ($node+".usePad") $usePadMask;
-        
+
         int $padDisplayMode = spSettingGetValueInt("showSettings.Tools.spReticle.PadDisplayMode", "");
         setAttr ($node+".padDisplayMode") $padDisplayMode;
-        
+
         float $padAmountX = spSettingGetValueFloat("showSettings.Tools.spReticle.PadAmountX", "");
         setAttr ($node+".padAmountX") $padAmountX;   
-        
+
         float $padAmountY = spSettingGetValueFloat("showSettings.Tools.spReticle.PadAmountY", "");
         setAttr ($node+".padAmountY") $padAmountY;  
-        
+
         float $padMaskColor[] = spSettingGetValueFloat3("showSettings.Tools.spReticle.PadMaskColor", "");
         setAttr ($node+".padMaskColor") -type double3 $padMaskColor[0] $padMaskColor[1] $padMaskColor[2];
-        
+
         float $padMaskTrans = spSettingGetValueFloat("showSettings.Tools.spReticle.PadMaskTrans", "");
         setAttr ($node+".padMaskTrans") $padMaskTrans;
-        
+
         float $padLineColor[] = spSettingGetValueFloat3("showSettings.Tools.spReticle.PadLineColor", "");
         setAttr ($node+".padLineColor") -type double3 $padLineColor[0] $padLineColor[1] $padLineColor[2];
-     
+
         float $padLineTrans = spSettingGetValueFloat("showSettings.Tools.spReticle.PadLineTrans", "");
         setAttr ($node+".padLineTrans") $padLineTrans;       
-        
+
         addText($node, "showSettings.Tools.spReticle.Text", 0);
         addText($node, "showSettings.Tools.spReticle.Text1", 1);
 
@@ -267,14 +265,14 @@ global proc spReticleLocSetDefault(string $node, string $tag)
 
         //Ensure that drawing is enabled
         setAttr ($node+".drawingEnabled") 1;
-        
+
         //Make reticle a template
         setAttr ($node+".template") 1;
-        
+
         //use useSpReticle
         int $useSpReticle = spSettingGetValueBoolean("showSettings.Tools.spReticle.UseSpReticle", "");
         setAttr ($node+".useSpReticle") $useSpReticle;
-            
+
         //Set maxdistance based on circle of goodness settings
         float $CircleOfGoodnessCubeHeight = spSettingGetValueFloat("showSettings.Maya.CircleOfGoodnessCubeHeight", "");
         float $CircleOfGoodnessCubeWidth  = spSettingGetValueFloat("showSettings.Maya.CircleOfGoodnessCubeWidth", "");
@@ -284,7 +282,7 @@ global proc spReticleLocSetDefault(string $node, string $tag)
         $maxDistance = max($CircleOfGoodnessCubeHeight/2, $maxDistance);
         $maxDistance = max($CircleOfGoodnessCubeWidth/2, $maxDistance);
         $maxDistance = max($CircleOfGoodnessCubeDepth/2, $maxDistance);
-        
+
         if ($maxDistance > 0)
             setAttr ($node+".maximumDistance") $maxDistance;
     }
