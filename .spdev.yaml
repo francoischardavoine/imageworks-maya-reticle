@@ -1,6 +1,6 @@
-version: 1.2.1
+version: 2.1.0
 release_notes: |
-  * Cleaned up code; updated spk.yaml file with latest Maya variant and Release compiler flag.
+  * Merged/rebased with external github site: https://github.com/imageworks/spReticle
 
 toolchain: []
 

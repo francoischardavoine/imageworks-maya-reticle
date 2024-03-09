@@ -2,6 +2,13 @@
 Download Versions Information
 =============================
 
+2.1  (03/08/2024)
+     Bug fixes and features done at Imageworks from 2014 to 2024:
+        - Minor bug fixes and code changes to make compile on newer gcc
+          compilers and Maya versions.
+        - New "MEL command" and "Python command" text types.
+        - Changes to make code compile in Visual Studio on Windows.
+
 2.0  (11/12/2013)
      Major update by Henry Vera to support
         - Viewport 2.0, starting with Maya 2013.

@@ -16,22 +16,38 @@ spReticle is a camera reticle for Maya.
 
 Project Home:
 -------------
-    http://code.google.com/p/imageworks-maya-reticle
+    https://github.com/imageworks/spReticle 
 
 
-Code Structure:
----------------
-All of the source code files are located under the src directory.
+Files:
+------
+    README.txt
+    CHANGES.txt
+    Makefile
     spReticleLoc     - Main classes
     GPURenderer      - Abstract class for handling GPU Rendering
     OpenGLRenderer   - Handles OGL renderering for VP1.0 and possibly VP2.0 (default)
-    V2MUIDrawMgr     - Handles VP2.0 rendering using the MUIDrawMgr class in Maya 2014+
+    V2Renderer       - Handles VP2.0 rendering
     util.h           - Utility classes
     defines.h        - Defines to drive compilation/options
     font.h           - Font Texture Atlas used for OGL font rendering
-    spReticleLoc.mel - MEL code to create a spReticle and potentially be invoked on
-        spReticleLoc node instantiation to drive dynamic configuration
-    AEspReticleLocTemplate.mel - Attribute Template for spReticle
+    AEspReticleLocTemplate.mel - Attribute Editor Template for spReticle
+    spReticleLocLinux.mel - MEL code to create a spReticle node on Linux
+
+    Additional files for Windows:
+        spReticleLoc.vcxproj 
+        spReticleLoc.vcxproj.filters
+        spReticleLoc.vcxproj.user
+        spReticleLoc.sln
+        spReticleLocWindows.mel - MEL code to create a spReticle node on Windows
+
+    Additional SPI internal files which can be ignored:
+        Makefile.spi
+        CMakeLists.txt
+        .gitlab-ci.yml
+        .spdev.yaml
+        spreticleloc.spk.yaml
+        spReticleLoc.mel
 
 
 Configure Options:
@@ -45,10 +61,12 @@ Compile Information:
 --------------------
 
 This is how to compile for 64-bit Maya on Linux using g++.  For other
-architectures and compilers modify Makefile accordingly.  Put the
-actual path of your Maya install directory for MAYA_LOCATION:
+architectures and compilers modify Makefile accordingly. 
 
-make MAYA_LOCATION=/usr/autodesk/maya2014-x64
+Define the actual path to your compiler in CPP and the path of your Maya install
+directory in MAYA_LOCATION on the command line. For example:
+
+make opt CPP=/opt/rh/devtoolset-6/root/usr/bin/g++ MAYA_LOCATION=/usr/autodesk/maya2020
 
 
 Usage information:

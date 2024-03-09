@@ -33,7 +33,10 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 
-loadPlugin "spReticleLoc.mll";
+if(! `pluginInfo -q  -loaded "spReticleLoc.mll"`)
+{
+    loadPlugin "spReticleLoc.mll";
+}
 
 global proc spReticleLocCreate()
 {
